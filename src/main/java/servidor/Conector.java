@@ -327,29 +327,27 @@ public class Conector {
 	}
 	
 	public PaqueteUsuario getUsuario(String usuario) {
-		ResultSet result = null;
-		PreparedStatement st;
+		PaqueteUsuario paqueteUsuario = null;
 		
 		try {
-			st = connect.prepareStatement("SELECT * FROM registro WHERE usuario = ?");
+			PreparedStatement st = connect.prepareStatement("SELECT * FROM registro WHERE usuario = ?");
 			st.setString(1, usuario);
-			result = st.executeQuery();
+			ResultSet result = st.executeQuery();
 
 			String password = result.getString("password");
 			int idPersonaje = result.getInt("idPersonaje");
 			
-			PaqueteUsuario paqueteUsuario = new PaqueteUsuario();
+			paqueteUsuario = new PaqueteUsuario();
 			paqueteUsuario.setUsername(usuario);
 			paqueteUsuario.setPassword(password);
 			paqueteUsuario.setIdPj(idPersonaje);
 			
-			return paqueteUsuario;
 		} catch (SQLException e) {
 			Servidor.log.append("Fallo al intentar recuperar el usuario " + usuario + System.lineSeparator());
 			Servidor.log.append(e.getMessage() + System.lineSeparator());
 		}
 		
-		return new PaqueteUsuario();
+		return paqueteUsuario;
 	}
 
 	public void actualizarInventario(PaquetePersonaje paquetePersonaje) {
