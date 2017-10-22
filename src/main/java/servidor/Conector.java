@@ -39,6 +39,7 @@ public class Conector {
 	}
 
 	public boolean registrarUsuario(PaqueteUsuario user) {
+		/*
 		ResultSet result = null;
 		try {
 			PreparedStatement st1 = connect.prepareStatement("SELECT * FROM registro WHERE usuario= ? ");
@@ -63,11 +64,39 @@ public class Conector {
 			System.err.println(ex.getMessage());
 			return false;
 		}
-
+		*/
+		boolean usuarioRegistrado = false;
+		boolean usuarioExiste = false;
+		try {
+			PreparedStatement st1 = connect.prepareStatement("SELECT * FROM registro WHERE usuario= ? ");
+			st1.setString(1, user.getUsername());
+			ResultSet result = st1.executeQuery();
+			
+			usuarioExiste = result.next();
+			
+			if (usuarioExiste) {
+				Servidor.log.append("El usuario " + user.getUsername() + " ya se encuentra en uso." + System.lineSeparator());
+			} else {
+				PreparedStatement st = connect.prepareStatement("INSERT INTO registro (usuario, password, idPersonaje) VALUES (?,?,?)");
+				st.setString(1, user.getUsername());
+				st.setString(2, user.getPassword());
+				st.setInt(3, user.getIdPj());
+				st.execute();
+				
+				usuarioRegistrado= true;
+				
+				Servidor.log.append("El usuario " + user.getUsername() + " se ha registrado." + System.lineSeparator());
+			}
+		} catch (SQLException ex) {
+			Servidor.log.append("Eror al intentar registrar el usuario " + user.getUsername() + System.lineSeparator());
+			System.err.println(ex.getMessage());
+		}
+		return usuarioRegistrado && !usuarioExiste;
 	}
 
 	public boolean registrarPersonaje(PaquetePersonaje paquetePersonaje, PaqueteUsuario paqueteUsuario) {
-
+		boolean personajeRegistrado = false;
+		boolean inventarioMochilaRegistrado = false;
 		try {
 
 			// Registro al personaje en la base de datos
@@ -91,7 +120,9 @@ public class Conector {
 
 			// Recupero la última key generada
 			ResultSet rs = stRegistrarPersonaje.getGeneratedKeys();
-			if (rs != null && rs.next()) {
+			
+			personajeRegistrado = (rs != null) && rs.next();
+			if (personajeRegistrado) {
 
 				// Obtengo el id
 				int idPersonaje = rs.getInt(1);
@@ -107,26 +138,24 @@ public class Conector {
 				stAsignarPersonaje.execute();
 
 				// Por ultimo registro el inventario y la mochila
-				if (this.registrarInventarioMochila(idPersonaje)) {
+				inventarioMochilaRegistrado = this.registrarInventarioMochila(idPersonaje);
+				if (inventarioMochilaRegistrado) {
 					Servidor.log.append("El usuario " + paqueteUsuario.getUsername() + " ha creado el personaje "
 							+ paquetePersonaje.getId() + System.lineSeparator());
-					return true;
 				} else {
 					Servidor.log.append("Error al registrar la mochila y el inventario del usuario " + paqueteUsuario.getUsername() + " con el personaje" + paquetePersonaje.getId() + System.lineSeparator());
-					return false;
 				}
 			}
-			return false;
-
 		} catch (SQLException e) {
 			Servidor.log.append(
 					"Error al intentar crear el personaje " + paquetePersonaje.getNombre() + System.lineSeparator());
-			return false;
 		}
-
+		
+		return personajeRegistrado && inventarioMochilaRegistrado;
 	}
 
 	public boolean registrarInventarioMochila(int idInventarioMochila) {
+		boolean inventarioMochilaRegistrado = false;
 		try {
 			// Preparo la consulta para el registro el inventario en la base de
 			// datos
@@ -151,39 +180,36 @@ public class Conector {
 			stAsignarPersonaje.execute();
 
 			Servidor.log.append("Se ha registrado el inventario de " + idInventarioMochila + System.lineSeparator());
-			return true;
+			inventarioMochilaRegistrado = true;
 
 		} catch (SQLException e) {
 			Servidor.log.append("Error al registrar el inventario de " + idInventarioMochila + System.lineSeparator());
-			return false;
 		}
+		
+		return inventarioMochilaRegistrado;
 	}
 
 	public boolean loguearUsuario(PaqueteUsuario user) {
-		ResultSet result = null;
+		boolean existeInicioSesion= false;
 		try {
 			// Busco usuario y contraseña
-			PreparedStatement st = connect
-					.prepareStatement("SELECT * FROM registro WHERE usuario = ? AND password = ? ");
+			PreparedStatement st = connect.prepareStatement("SELECT * FROM registro WHERE usuario = ? AND password = ? ");
 			st.setString(1, user.getUsername());
 			st.setString(2, user.getPassword());
-			result = st.executeQuery();
+			ResultSet result = st.executeQuery();
 
-			// Si existe inicio sesion
-			if (result.next()) {
+			
+			existeInicioSesion = result.next();
+			
+			if (existeInicioSesion)			// Si existe inicio sesion 
 				Servidor.log.append("El usuario " + user.getUsername() + " ha iniciado sesión." + System.lineSeparator());
-				return true;
-			}
-
-			// Si no existe informo y devuelvo false
-			Servidor.log.append("El usuario " + user.getUsername() + " ha realizado un intento fallido de inicio de sesión." + System.lineSeparator());
-			return false;
+			else			// Si no existe informo y devuelvo false
+				Servidor.log.append("El usuario " + user.getUsername() + " ha realizado un intento fallido de inicio de sesión." + System.lineSeparator());
 
 		} catch (SQLException e) {
 			Servidor.log.append("El usuario " + user.getUsername() + " fallo al iniciar sesión." + System.lineSeparator());
-			return false;
 		}
-
+		return existeInicioSesion;
 	}
 
 	public void actualizarPersonaje(PaquetePersonaje paquetePersonaje) {
