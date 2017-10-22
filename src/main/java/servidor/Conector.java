@@ -261,16 +261,14 @@ public class Conector {
 	}
 
 	public PaquetePersonaje getPersonaje(PaqueteUsuario user) throws IOException {
-		ResultSet result = null;
-		ResultSet resultadoItemsID = null;
-		ResultSet resultadoDatoItem = null;
+		PaquetePersonaje personaje = null;
 		int i = 2;
 		int j = 0;
 		try {
 			// Selecciono el personaje de ese usuario
 			PreparedStatement st = connect.prepareStatement("SELECT * FROM registro WHERE usuario = ?");
 			st.setString(1, user.getUsername());
-			result = st.executeQuery();
+			ResultSet result = st.executeQuery();
 
 			// Obtengo el id
 			int idPersonaje = result.getInt("idPersonaje");
@@ -283,13 +281,13 @@ public class Conector {
 			// Traigo los id de los items correspondientes a mi personaje
 			PreparedStatement stDameItemsID = connect.prepareStatement("SELECT * FROM mochila WHERE idMochila = ?");
 			stDameItemsID.setInt(1, idPersonaje);
-			resultadoItemsID = stDameItemsID.executeQuery();
+			ResultSet resultadoItemsID = stDameItemsID.executeQuery();
 			// Traigo los datos del item
 			PreparedStatement stDatosItem = connect.prepareStatement("SELECT * FROM item WHERE idItem = ?");
 			
 			
 			// Obtengo los atributos del personaje
-			PaquetePersonaje personaje = new PaquetePersonaje();
+			personaje = new PaquetePersonaje();
 			personaje.setId(idPersonaje);
 			personaje.setRaza(result.getString("raza"));
 			personaje.setCasta(result.getString("casta"));
@@ -301,7 +299,9 @@ public class Conector {
 			personaje.setNombre(result.getString("nombre"));
 			personaje.setExperiencia(result.getInt("experiencia"));
 			personaje.setNivel(result.getInt("nivel"));
-
+			
+			ResultSet resultadoDatoItem;
+			
 			while (j <= 9) {
 				if(resultadoItemsID.getInt(i) != -1) {
 					stDatosItem.setInt(1, resultadoItemsID.getInt(i));
@@ -316,16 +316,14 @@ public class Conector {
 				j++;
 			}
 			
-
 			// Devuelvo el paquete personaje con sus datos
-			return personaje;
-
+			
 		} catch (SQLException ex) {
 			Servidor.log.append("Fallo al intentar recuperar el personaje " + user.getUsername() + System.lineSeparator());
 			Servidor.log.append(ex.getMessage() + System.lineSeparator());
 		}
 
-		return new PaquetePersonaje();
+		return personaje;
 	}
 	
 	public PaqueteUsuario getUsuario(String usuario) {
