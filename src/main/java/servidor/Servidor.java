@@ -13,7 +13,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -179,27 +181,46 @@ public class Servidor extends Thread {
 	}
 
 	public static boolean mensajeAUsuario(PaqueteMensaje pqm) {
-		boolean result = true;
-		boolean noEncontro = true;
-		for (Map.Entry<Integer, PaquetePersonaje> personaje : personajesConectados.entrySet()) {
-			if (noEncontro && (!personaje.getValue().getNombre().equals(pqm.getUserReceptor()))) {
-				result = false;
-			} else {
-				result = true;
-				noEncontro = false;
-			}
+//		boolean result = true;
+//		boolean noEncontro = true;
+//		
+//		for (Map.Entry<Integer, PaquetePersonaje> personaje : personajesConectados.entrySet()) {
+//			if (noEncontro && (!personaje.getValue().getNombre().equals(pqm.getUserReceptor()))) {
+//				result = false;
+//			} else {
+//				result = true;
+//				noEncontro = false;
+//			}
+//		}
+//		// Si existe inicio sesion
+//		if (result) {
+//			Servidor.log
+//					.append(pqm.getUserEmisor() + " envió mensaje a " + pqm.getUserReceptor() + System.lineSeparator());
+//			return true;
+//		} else {
+//			// Si no existe informo y devuelvo false
+//			Servidor.log.append("El mensaje para " + pqm.getUserReceptor()
+//					+ " no se envió, ya que se encuentra desconectado." + System.lineSeparator());
+//			return false;
+//		}
+		
+		boolean encontro = false;
+		
+		Iterator<Entry<Integer, PaquetePersonaje>> it = personajesConectados.entrySet().iterator();
+		
+		while(it.hasNext() && !encontro){
+			Map.Entry<Integer, PaquetePersonaje> e = (Map.Entry<Integer, PaquetePersonaje>)it.next();
+			
+			if(e.getValue().getNombre().equals(pqm.getUserReceptor()))
+				encontro=true;
 		}
-		// Si existe inicio sesion
-		if (result) {
-			Servidor.log
-					.append(pqm.getUserEmisor() + " envió mensaje a " + pqm.getUserReceptor() + System.lineSeparator());
-			return true;
-		} else {
-			// Si no existe informo y devuelvo false
-			Servidor.log.append("El mensaje para " + pqm.getUserReceptor()
-					+ " no se envió, ya que se encuentra desconectado." + System.lineSeparator());
-			return false;
-		}
+		
+		if (encontro)		// Si existe inicio sesion
+			Servidor.log.append(pqm.getUserEmisor() + " envió mensaje a " + pqm.getUserReceptor() + System.lineSeparator());
+		else			// Si no existe informo y devuelvo false
+			Servidor.log.append("El mensaje para " + pqm.getUserReceptor() + " no se envió, ya que se encuentra desconectado." + System.lineSeparator());
+		
+		return encontro;
 	}
 
 	public static boolean mensajeAAll(int contador) {
