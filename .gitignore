@@ -3,7 +3,4 @@
 **/.gradle
 **/bin
 **/build
-*.project
 *.classpath
-primeraBase.bd
-*.bd
