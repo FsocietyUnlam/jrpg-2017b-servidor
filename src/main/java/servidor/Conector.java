@@ -24,17 +24,17 @@ public class Conector {
     /**
      *Variable connect del tipo Connection.
      */
-    private Connection connect;
+    Connection connect;
     /**
      *Metodo connect.
      */
     public void connect() {
         try {
-            Servidor.getLog().append("Estableciendo conexión con la base de datos..." + System.lineSeparator());
+            Servidor.log.append("Estableciendo conexión con la base de datos..." + System.lineSeparator());
             connect = DriverManager.getConnection("jdbc:sqlite:" + url);
-            Servidor.getLog().append("Conexión con la base de datos establecida con éxito." + System.lineSeparator());
+            Servidor.log.append("Conexión con la base de datos establecida con éxito." + System.lineSeparator());
         } catch (SQLException ex) {
-            Servidor.getLog().append("Fallo al intentar establecer la conexión con la base de datos. "
+            Servidor.log.append("Fallo al intentar establecer la conexión con la base de datos. "
                     + ex.getMessage() + System.lineSeparator());
         }
     }
@@ -45,8 +45,7 @@ public class Conector {
         try {
             connect.close();
         } catch (SQLException ex) {
-            Servidor.getLog().append("Error al intentar cerrar la conexión con la base de datos."
-                    + System.lineSeparator());
+            Servidor.log.append("Error al intentar cerrar la conexión con la base de datos." + System.lineSeparator());
             Logger.getLogger(Conector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -85,7 +84,7 @@ public class Conector {
             usuarioExiste = result.next();
 
             if (usuarioExiste) {
-                Servidor.getLog().append("El usuario " + user.getUsername()
+                Servidor.log.append("El usuario " + user.getUsername()
                         + " ya se encuentra en uso." + System.lineSeparator());
             } else {
                 PreparedStatement st = connect
@@ -97,12 +96,10 @@ public class Conector {
 
                 usuarioRegistrado = true;
 
-                Servidor.getLog().append("El usuario " + user.getUsername()
-                        + " se ha registrado." + System.lineSeparator());
+                Servidor.log.append("El usuario " + user.getUsername() + " se ha registrado." + System.lineSeparator());
             }
         } catch (SQLException ex) {
-            Servidor.getLog().append("Eror al intentar registrar el usuario "
-                    + user.getUsername() + System.lineSeparator());
+            Servidor.log.append("Eror al intentar registrar el usuario " + user.getUsername() + System.lineSeparator());
             System.err.println(ex.getMessage());
         }
         return usuarioRegistrado && !usuarioExiste;
@@ -161,16 +158,16 @@ public class Conector {
                 // Por ultimo registro el inventario y la mochila
                 inventarioMochilaRegistrado = this.registrarInventarioMochila(idPersonaje);
                 if (inventarioMochilaRegistrado) {
-                    Servidor.getLog().append("El usuario " + paqueteUsuario.getUsername()
+                    Servidor.log.append("El usuario " + paqueteUsuario.getUsername()
                             + " ha creado el personaje " + paquetePersonaje.getId() + System.lineSeparator());
                 } else {
-                    Servidor.getLog().append(
+                    Servidor.log.append(
                             "Error al registrar la mochila y el inventario del usuario " + paqueteUsuario.getUsername()
                                     + " con el personaje" + paquetePersonaje.getId() + System.lineSeparator());
                 }
             }
         } catch (SQLException e) {
-            Servidor.getLog().append("Error al intentar crear el personaje "
+            Servidor.log.append("Error al intentar crear el personaje "
                     + paquetePersonaje.getNombre() + System.lineSeparator());
         }
 
@@ -212,13 +209,11 @@ public class Conector {
             stAsignarPersonaje.setInt(3, idInventarioMochila);
             stAsignarPersonaje.execute();
 
-            Servidor.getLog().append("Se ha registrado el inventario de "
-                    + idInventarioMochila + System.lineSeparator());
+            Servidor.log.append("Se ha registrado el inventario de " + idInventarioMochila + System.lineSeparator());
             inventarioMochilaRegistrado = true;
 
         } catch (SQLException e) {
-            Servidor.getLog().append("Error al registrar el inventario de "
-                    + idInventarioMochila + System.lineSeparator());
+            Servidor.log.append("Error al registrar el inventario de " + idInventarioMochila + System.lineSeparator());
         }
 
         return inventarioMochilaRegistrado;
@@ -241,14 +236,14 @@ public class Conector {
             existeInicioSesion = result.next();
 
             if (existeInicioSesion) {
-                Servidor.getLog().append("El usuario " + user.getUsername()
+                Servidor.log.append("El usuario " + user.getUsername()
                         + " ha iniciado sesión." + System.lineSeparator());
             } else {
-                Servidor.getLog().append("El usuario " + user.getUsername()
+                Servidor.log.append("El usuario " + user.getUsername()
                         + " ha realizado un intento fallido de inicio de sesión." + System.lineSeparator());
             }
         } catch (SQLException e) {
-            Servidor.getLog().append("El usuario " + user.getUsername()
+            Servidor.log.append("El usuario " + user.getUsername()
                     + " fallo al iniciar sesión." + System.lineSeparator());
         }
         return existeInicioSesion;
@@ -296,10 +291,10 @@ public class Conector {
                 i++;
                 j++;
             }
-            Servidor.getLog().append("El personaje " + paquetePersonaje.getNombre()
+            Servidor.log.append("El personaje " + paquetePersonaje.getNombre()
                      + " se ha actualizado con éxito." + System.lineSeparator());
         } catch (SQLException e) {
-            Servidor.getLog().append("Fallo al intentar actualizar el personaje "
+            Servidor.log.append("Fallo al intentar actualizar el personaje "
                     + paquetePersonaje.getNombre() + System.lineSeparator());
         }
 
@@ -368,9 +363,9 @@ public class Conector {
             // Devuelvo el paquete personaje con sus datos
 
         } catch (SQLException ex) {
-            Servidor.getLog().append("Fallo al intentar recuperar el personaje "
+            Servidor.log.append("Fallo al intentar recuperar el personaje "
                     + user.getUsername() + System.lineSeparator());
-            Servidor.getLog().append(ex.getMessage() + System.lineSeparator());
+            Servidor.log.append(ex.getMessage() + System.lineSeparator());
         }
 
         return personaje;
@@ -397,8 +392,8 @@ public class Conector {
             paqueteUsuario.setIdPj(idPersonaje);
 
         } catch (SQLException e) {
-            Servidor.getLog().append("Fallo al intentar recuperar el usuario " + usuario + System.lineSeparator());
-            Servidor.getLog().append(e.getMessage() + System.lineSeparator());
+            Servidor.log.append("Fallo al intentar recuperar el usuario " + usuario + System.lineSeparator());
+            Servidor.log.append(e.getMessage() + System.lineSeparator());
         }
 
         return paqueteUsuario;
@@ -461,7 +456,7 @@ public class Conector {
             stActualizarMochila.executeUpdate();
 
         } catch (SQLException e) {
-            Servidor.getLog().append("Falló al intentar actualizar inventario de" + idPersonaje + "\n");
+            Servidor.log.append("Falló al intentar actualizar inventario de" + idPersonaje + "\n");
         }
     }
 /**
@@ -485,10 +480,10 @@ public class Conector {
 
             stActualizarPersonaje.executeUpdate();
 
-            Servidor.getLog().append("El personaje " + paquetePersonaje.getNombre()
+            Servidor.log.append("El personaje " + paquetePersonaje.getNombre()
                     + " se ha actualizado con éxito." + System.lineSeparator());
         } catch (SQLException e) {
-            Servidor.getLog().append("Fallo al intentar actualizar el personaje "
+            Servidor.log.append("Fallo al intentar actualizar el personaje "
                     + paquetePersonaje.getNombre() + System.lineSeparator());
         }
     }

@@ -13,19 +13,19 @@ public class Salir extends ComandosServer {
     public final void ejecutar() {
         // Cierro todo
         try {
-            getEscuchaCliente().getEntrada().close();
-            getEscuchaCliente().getSalida().close();
-            getEscuchaCliente().getSocket().close();
+            escuchaCliente.getEntrada().close();
+            escuchaCliente.getSalida().close();
+            escuchaCliente.getSocket().close();
         } catch (IOException e) {
-            Servidor.getLog().append("Falló al intentar salir \n");
+            Servidor.log.append("Falló al intentar salir \n");
 
         }
 
         // Lo elimino de los clientes conectados
-        Servidor.getClientesConectados().remove(this.getEscuchaCliente());
+        Servidor.getClientesConectados().remove(this);
         Paquete paquete = (Paquete) gson.fromJson(cadenaLeida, Paquete.class);
         // Indico que se desconecto
-        Servidor.getLog().append(paquete.getIp() + " se ha desconectado." + System.lineSeparator());
+        Servidor.log.append(paquete.getIp() + " se ha desconectado." + System.lineSeparator());
     }
 
 }

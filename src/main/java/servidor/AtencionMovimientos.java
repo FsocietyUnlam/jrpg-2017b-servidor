@@ -48,7 +48,7 @@ public class AtencionMovimientos extends Thread {
                     }
                 }
             } catch (Exception e) {
-                Servidor.getLog().append("Falló al intentar enviar paqueteDeMovimientos \n");
+                Servidor.log.append("Falló al intentar enviar paqueteDeMovimientos \n");
             }
         }
     }
