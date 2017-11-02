@@ -10,15 +10,15 @@ public class Conexion extends ComandosServer {
 
     @Override
     public final void ejecutar() {
-        getEscuchaCliente().setPaquetePersonaje((PaquetePersonaje) (gson
+        escuchaCliente.setPaquetePersonaje((PaquetePersonaje) (gson
                 .fromJson(cadenaLeida, PaquetePersonaje.class)).clone());
 
-        Servidor.getPersonajesConectados().put(getEscuchaCliente().getPaquetePersonaje()
-                .getId(), (PaquetePersonaje) getEscuchaCliente().getPaquetePersonaje().clone());
-        Servidor.getUbicacionPersonajes().put(getEscuchaCliente().getPaquetePersonaje().getId(), (PaqueteMovimiento)
-                new PaqueteMovimiento(getEscuchaCliente().getPaquetePersonaje().getId()).clone());
-        synchronized (Servidor.getAtencionConexiones()) {
-            Servidor.getAtencionConexiones().notify();
+        Servidor.getPersonajesConectados().put(escuchaCliente.getPaquetePersonaje()
+                .getId(), (PaquetePersonaje) escuchaCliente.getPaquetePersonaje().clone());
+        Servidor.getUbicacionPersonajes().put(escuchaCliente.getPaquetePersonaje().getId(), (PaqueteMovimiento)
+                new PaqueteMovimiento(escuchaCliente.getPaquetePersonaje().getId()).clone());
+        synchronized (Servidor.atencionConexiones) {
+            Servidor.atencionConexiones.notify();
         }
 
     }

@@ -3,6 +3,7 @@ package testsServidor;
 import java.io.IOException;
 import java.util.Random;
 
+import javax.swing.plaf.SliderUI;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,12 +23,12 @@ public class TestConector {
      * @return saltStr
      */
     private String getRandomString() {
-        String saltchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
         while (salt.length() < 8) { // length of the random string.
-            int index = (int) (rnd.nextFloat() * saltchars.length());
-            salt.append(saltchars.charAt(index));
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
         }
         String saltStr = salt.toString();
         return saltStr;

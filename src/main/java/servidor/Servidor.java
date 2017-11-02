@@ -58,7 +58,7 @@ public class Servidor extends Thread {
 /**
  * Variable PUERTO del tipo final int.
  */
-    private final int puerto = 55050;
+    private final int PUERTO = 55050;
 /**
  * Constante ANCHO del tipo int.
  */
@@ -78,15 +78,15 @@ public class Servidor extends Thread {
 /**
  * Variable log del tipo JTextArea.
  */
-    private static JTextArea log;
+    public static JTextArea log;
 /**
  * Variable atencionConexiones del tipo AtencionConexiones.
  */
-    private static AtencionConexiones atencionConexiones;
+    public static AtencionConexiones atencionConexiones;
 /**
  * Varible atencionMovimientos del tipo AtencionMovimientos.
  */
-    private static AtencionMovimientos atencionMovimientos;
+    public static AtencionMovimientos atencionMovimientos;
 /**
  * Main.
  * @param args del tipo string
@@ -200,7 +200,7 @@ public class Servidor extends Thread {
             conexionDB.connect();
 
             log.append("Iniciando el servidor..." + System.lineSeparator());
-            serverSocket = new ServerSocket(puerto);
+            serverSocket = new ServerSocket(PUERTO);
             log.append("Servidor esperando conexiones..." + System.lineSeparator());
             String ipRemota;
 
@@ -335,27 +335,5 @@ public class Servidor extends Thread {
  */
     public static Conector getConector() {
         return conexionDB;
-    }
-/**
-* Thread atencion de conexiones.
-* @return AtencionConexiones
-*/
-    public static AtencionConexiones getAtencionConexiones() {
-        return atencionConexiones;
-    }
-
-/**
-* Thread atencion de movimientos.
-* @return AtencionMovimientos
-*/
-    public static AtencionMovimientos getAtencionMovimientos() {
-        return atencionMovimientos;
-    }
-/**
- * Getter del log.
- * @return log
- */
-    public static JTextArea getLog() {
-         return log;
     }
 }

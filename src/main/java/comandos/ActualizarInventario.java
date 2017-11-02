@@ -12,20 +12,19 @@ public class ActualizarInventario extends ComandosServer {
 
         @Override
         public final void ejecutar() {
-                getEscuchaCliente().setPaquetePersonaje((PaquetePersonaje) gson
+                escuchaCliente.setPaquetePersonaje((PaquetePersonaje) gson
                                 .fromJson(cadenaLeida, PaquetePersonaje.class));
                 Servidor.getConector()
-                                .actualizarInventario(getEscuchaCliente().getPaquetePersonaje());
+                                .actualizarInventario(escuchaCliente.getPaquetePersonaje());
                 Servidor.getPersonajesConectados()
-                                .remove(getEscuchaCliente().getPaquetePersonaje().getId());
-                Servidor.getPersonajesConectados().put(getEscuchaCliente().getPaquetePersonaje()
-                                .getId(), getEscuchaCliente().getPaquetePersonaje());
+                                .remove(escuchaCliente.getPaquetePersonaje().getId());
+                Servidor.getPersonajesConectados().put(escuchaCliente.getPaquetePersonaje()
+                                .getId(), escuchaCliente.getPaquetePersonaje());
                 for (EscuchaCliente conectado : Servidor.getClientesConectados()) {
                         try {
-                                conectado.getSalida().writeObject(gson.toJson(getEscuchaCliente().
-                                        getPaquetePersonaje()));
+                                conectado.getSalida().writeObject(gson.toJson(escuchaCliente.getPaquetePersonaje()));
                         } catch (IOException e) {
-                                Servidor.getLog().append("Falló al intentar enviar paquetePersonaje a:"
+                                Servidor.log.append("Falló al intentar enviar paquetePersonaje a:"
                                               + conectado.getPaquetePersonaje().getId() + "\n");
                         }
                 }
