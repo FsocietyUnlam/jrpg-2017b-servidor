@@ -101,7 +101,8 @@ public class EscuchaCliente extends Thread {
             paqueteUsuario = new PaqueteUsuario();
 
             String cadenaLeida = (String) entrada.readObject();
-            while (!((paquete = gson.fromJson(cadenaLeida, Paquete.class)).getComando() == Comando.DESCONECTAR)) {
+            paquete = gson.fromJson(cadenaLeida, Paquete.class);
+            while (!(paquete.getComando() == Comando.DESCONECTAR)) {
 
                 comand = (ComandosServer) paquete.getObjeto(Comando.NOMBREPAQUETE);
                 comand.setCadena(cadenaLeida);
@@ -124,10 +125,10 @@ public class EscuchaCliente extends Thread {
                 conectado.salida.writeObject(gson.toJson(paqueteDePersonajes, PaqueteDePersonajes.class));
             }
 
-            Servidor.log.append(paquete.getIp() + " se ha desconectado." + System.lineSeparator());
+            Servidor.getLog().append(paquete.getIp() + " se ha desconectado." + System.lineSeparator());
 
         } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            Servidor.log.append("Error de conexion: " + e.getMessage() + System.lineSeparator());
+            Servidor.getLog().append("Error de conexion: " + e.getMessage() + System.lineSeparator());
         }
     }
 /**

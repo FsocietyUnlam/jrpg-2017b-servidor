@@ -12,13 +12,13 @@ public class Atacar extends ComandosServer {
 
     @Override
     public final void ejecutar() {
-        escuchaCliente.setPaqueteAtacar((PaqueteAtacar) gson.fromJson(cadenaLeida, PaqueteAtacar.class));
+        getEscuchaCliente().setPaqueteAtacar((PaqueteAtacar) gson.fromJson(cadenaLeida, PaqueteAtacar.class));
         for (EscuchaCliente conectado : Servidor.getClientesConectados()) {
-            if (conectado.getIdPersonaje() == escuchaCliente.getPaqueteAtacar().getIdEnemigo()) {
+            if (conectado.getIdPersonaje() == getEscuchaCliente().getPaqueteAtacar().getIdEnemigo()) {
                 try {
-                    conectado.getSalida().writeObject(gson.toJson(escuchaCliente.getPaqueteAtacar()));
+                    conectado.getSalida().writeObject(gson.toJson(getEscuchaCliente().getPaqueteAtacar()));
                 } catch (IOException e) {
-                    Servidor.log.append("Falló al intentar enviar ataque a:"
+                    Servidor.getLog().append("Falló al intentar enviar ataque a:"
                             + conectado.getPaquetePersonaje().getId() + "\n");
                 }
             }

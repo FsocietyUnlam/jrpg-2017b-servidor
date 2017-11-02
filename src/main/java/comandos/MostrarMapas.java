@@ -9,10 +9,11 @@ public class MostrarMapas extends ComandosServer {
 
     @Override
     public final void ejecutar() {
-        escuchaCliente.setPaquetePersonaje((PaquetePersonaje) gson
+        getEscuchaCliente().setPaquetePersonaje((PaquetePersonaje) gson
                 .fromJson(cadenaLeida, PaquetePersonaje.class));
-        Servidor.log.append(escuchaCliente.getSocket().getInetAddress().getHostAddress() + " ha elegido el mapa "
-                + escuchaCliente.getPaquetePersonaje().getMapa() + System.lineSeparator());
+        Servidor.getLog().append(getEscuchaCliente().getSocket()
+                         .getInetAddress().getHostAddress() + " ha elegido el mapa "
+                         + getEscuchaCliente().getPaquetePersonaje().getMapa() + System.lineSeparator());
     }
 
 }
