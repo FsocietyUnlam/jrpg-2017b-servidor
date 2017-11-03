@@ -23,6 +23,7 @@ import org.hibernate.cfg.Configuration;
 
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
+import modelos.Personaje;
 import modelos.Registro;
 
 /**
@@ -129,7 +130,7 @@ public class Conector {
 		try {
 
 			// Registro al personaje en la base de datos
-			PreparedStatement stRegistrarPersonaje = connect.prepareStatement(
+			/*PreparedStatement stRegistrarPersonaje = connect.prepareStatement(
 					"INSERT INTO personaje (idInventario, idMochila,casta,raza,fuerza,destreza,inteligencia,"
 							+ "saludTope,energiaTope,nombre,experiencia,nivel,idAlianza) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS);
@@ -146,16 +147,39 @@ public class Conector {
 			stRegistrarPersonaje.setInt(11, 0);
 			stRegistrarPersonaje.setInt(12, 1);
 			stRegistrarPersonaje.setInt(13, -1);
-			stRegistrarPersonaje.execute();
+			stRegistrarPersonaje.execute();*/
+			SessionFactory factory = new Configuration().configure().buildSessionFactory();
+			Session session = factory.openSession();
+			
+			Personaje p = new Personaje();
+			p.setIdInventario(-1);
+			p.setIdMochila(-1);
+			p.setCasta(paquetePersonaje.getCasta());
+			p.setRaza(paquetePersonaje.getRaza());
+			p.setFuerza(paquetePersonaje.getFuerza());
+			p.setDestreza(paquetePersonaje.getDestreza());
+			p.setInteligencia(paquetePersonaje.getInteligencia());
+			p.setSaludTope(paquetePersonaje.getSaludTope());
+			p.setEnergiaTope(paquetePersonaje.getEnergiaTope());
+			p.setNombre(paquetePersonaje.getNombre());
+			p.setExperiencia(0);
+			p.setNivel(1);
+			p.setIdAlianza(-1);
+			
+			session.getTransaction().begin();
+			int idPersonaje = (Integer)session.save(p);
+			session.getTransaction().commit();
+	
+			
 
 			// Recupero la última key generada
-			ResultSet rs = stRegistrarPersonaje.getGeneratedKeys();
+			//ResultSet rs = stRegistrarPersonaje.getGeneratedKeys();
 
-			personajeRegistrado = (rs != null) && rs.next();
+			personajeRegistrado = true;
 			if (personajeRegistrado) {
 
 				// Obtengo el id
-				int idPersonaje = rs.getInt(1);
+				//int idPersonaje = rs.getInt(1);
 
 				// Le asigno el id al paquete personaje que voy a devolver
 				paquetePersonaje.setId(idPersonaje);

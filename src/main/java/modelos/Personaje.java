@@ -1,5 +1,9 @@
 package modelos;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class Personaje {
 	private int idPersonaje;
 	private int idInventario;
@@ -16,6 +20,8 @@ public class Personaje {
 	private int nivel;
 	private int idAlianza;
 	
+	@Id
+	@GeneratedValue
 	public int getIdPersonaje() {
 		return idPersonaje;
 	}
