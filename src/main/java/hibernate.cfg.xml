@@ -11,5 +11,8 @@
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
 		<mapping resource="modelos/registro.hbm.xml" />
+		<mapping resource="modelos/personaje.hbm.xml" />
+		<mapping resource="modelos/mochila.hbm.xml" />
+		<mapping resource="modelos/item.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

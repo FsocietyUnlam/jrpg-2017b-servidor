@@ -23,11 +23,11 @@ public class TestRegistro {
 
 		try {
 			CriteriaBuilder cb = session.getCriteriaBuilder();
-			CriteriaQuery<Registro> cq = cb.createQuery(Registro.class);
-			Root<Registro> rp = cq.from(Registro.class);
+			CriteriaQuery<Item> cq = cb.createQuery(Item.class);
+			Root<Item> rp = cq.from(Item.class);
 			// cq.select(rp).where(cb.like(rp.get("nombre"), "%s%"));
-			List<Registro> lista = session.createQuery(cq).getResultList();
-			for (Registro p : lista) {
+			List<Item> lista = session.createQuery(cq).getResultList();
+			for (Item p : lista) {
 				System.out.println(p);
 			}
 
