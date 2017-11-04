@@ -21,6 +21,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import comandos.ConexionHibernate;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
 import modelos.Personaje;
@@ -38,7 +39,13 @@ public class Conector {
 	 * Variable connect del tipo Connection.
 	 */
 	Connection connect;
-
+	//ConexionHibernate connectionHibernate; //Atributo agregado
+	
+	//Constructor Agregado
+	/*public Conector() {
+		connectionHibernate = new ConexionHibernate(); 
+	}*/
+	
 	/**
 	 * Metodo connect.
 	 */
@@ -77,9 +84,12 @@ public class Conector {
 		boolean usuarioRegistrado = false;
 		boolean usuarioExiste = false;
 		try {
+
 			SessionFactory factory = new Configuration().configure().buildSessionFactory();
 			Session session = factory.openSession();
-
+			/*SessionFactory factory = connectionHibernate.getSessionFactory();
+			Session session = factory.openSession();*/
+			
 			// Query para consultar si ya existe un usuario con ese nombre.
 			CriteriaBuilder cb1 = session.getCriteriaBuilder();
 			CriteriaQuery<Registro> criteriaQuery = cb1.createQuery(Registro.class);
@@ -150,6 +160,8 @@ public class Conector {
 			stRegistrarPersonaje.execute();*/
 			SessionFactory factory = new Configuration().configure().buildSessionFactory();
 			Session session = factory.openSession();
+			/*SessionFactory factory = connectionHibernate.getSessionFactory();
+			Session session = factory.openSession();*/
 			
 			Personaje p = new Personaje();
 			p.setIdInventario(-1);
