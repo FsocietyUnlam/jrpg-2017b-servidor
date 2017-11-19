@@ -27,6 +27,11 @@ import mensajeria.PaqueteMensaje;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 
+/**
+ * 
+ * Clase Servidor ..
+ *
+ */
 public class Servidor extends Thread {
 /**
  * ArrayList clientesConectados del tipo EscuchaCliente.
