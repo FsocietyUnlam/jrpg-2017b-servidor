@@ -1,6 +1,6 @@
 package comandos;
 
-//import org.hibernate.Session;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -24,9 +24,8 @@ public class ConexionHibernate {
 
 	private static StandardServiceRegistry serviceRegistry;
 	private volatile static SessionFactory INSTANCE = null;
-	//private static Session unSession;
+	private static Session unSession;
 
-	//u obtener la sesion?
 	//public static SessionFactory getSessionFactory() {
 	public  SessionFactory getSessionFactory() {
 		if (INSTANCE == null) {
@@ -37,6 +36,7 @@ public class ConexionHibernate {
 
 	private synchronized static void createSessionFactory() {
 		if (INSTANCE != null) {
+			unSession.clear();
 			return;
 		}
 
@@ -45,10 +45,11 @@ public class ConexionHibernate {
 
 		serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 		INSTANCE = configuration.buildSessionFactory(serviceRegistry);
-		//unSession = INSTANCE.openSession();
+		unSession = INSTANCE.openSession();
 	}
 
 	/*public static Session getUnSession() {
+		if(unSession.)
 		return unSession;
 	}*/
 
