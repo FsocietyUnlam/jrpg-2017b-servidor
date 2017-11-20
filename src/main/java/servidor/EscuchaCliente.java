@@ -12,9 +12,13 @@ import mensajeria.Comando;
 import mensajeria.Paquete;
 import mensajeria.PaqueteAtacar;
 import mensajeria.PaqueteBatalla;
+import mensajeria.PaqueteBatallaNPC;
+import mensajeria.PaqueteDeEnemigos;
 import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
+import mensajeria.PaqueteEnemigo;
 import mensajeria.PaqueteFinalizarBatalla;
+import mensajeria.PaqueteFinalizarBatallaNPC;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
@@ -47,6 +51,14 @@ public class EscuchaCliente extends Thread {
      * Variable paquetePersonaje del tipo PaquetePersonaje.
      */
     private PaquetePersonaje paquetePersonaje;
+    
+	
+    /** Variable que almacenará los datos del enemigo. **/
+    private PaqueteEnemigo paqueteEnemigo;
+    
+    /** Variable que almacenará los datos de la batalla entre cliente y NPC. **/
+    private PaqueteBatallaNPC paqueteBatallaNPC;
+    
     /**
      * Variable paqueteMovimiento del tipo PaqueteMovimiento.
      */
@@ -63,6 +75,9 @@ public class EscuchaCliente extends Thread {
      * Variable paqueteFinalizarBatalla del tipo PaqueteFinalizarBatalla.
      */
     private PaqueteFinalizarBatalla paqueteFinalizarBatalla;
+    
+   /** una batalla contra un NPC. **/
+   private PaqueteFinalizarBatallaNPC paqueteFinalizarBatallaNPC;
     /**
      * Variable paqueteUsuario del tipo PaqueteUsuario.
      */
@@ -75,6 +90,9 @@ public class EscuchaCliente extends Thread {
      * Variable paqueteDePersonajes del tipo PaqueteDePersonajes.
      */
     private PaqueteDePersonajes paqueteDePersonajes;
+    
+    /** Variable que almacenará los enemigos. (NPC) **/
+    private PaqueteDeEnemigos paqueteDeEnemigos;
 /**
  *
  * @param ip envia el ip.
@@ -276,5 +294,71 @@ public class EscuchaCliente extends Thread {
  */
     public void setPaqueteUsuario(final PaqueteUsuario paqueteUsuario) {
         this.paqueteUsuario = paqueteUsuario;
+    }
+	/**
+     * Método que me devuelve el paqueteEnemigo.
+     * @return PaqueteEnemigo.
+     */
+    public PaqueteEnemigo getPaqueteEnemigo() {
+         return paqueteEnemigo;
+    }
+
+    /**
+     * Método que setea el paqueteEnemigo.
+     * @param paqueteEnemigo paqueteEnemigo.
+     */
+    public void setPaqueteEnemigo(
+       final PaqueteEnemigo paqueteEnemigo) {
+       this.paqueteEnemigo = paqueteEnemigo;
+   }
+
+    /**
+     * Método que me devuelve el paqueteDeEnemigos.
+     * @return PaqueteDeEnemigos.
+     */
+    public PaqueteDeEnemigos getPaqueteDeEnemigos() {
+        return paqueteDeEnemigos;
+    }
+
+    /**
+     * Método que setea el paqueteDeEnemigos.
+     * @param paqueteDeEnemigos paq de enemigos.
+     */
+    public void setPaqueteDeEnemigos(
+         final PaqueteDeEnemigos paqueteDeEnemigos) {
+       this.paqueteDeEnemigos = paqueteDeEnemigos;
+    }
+
+    /**
+     * Método que me devuelve el paqueteFinalizarBatallaNPC.
+     * @return PaqueteFinalizarBatallaNPC.
+     */
+     public PaqueteFinalizarBatallaNPC getPaqueteFinalizarBatallaNPC() {
+         return paqueteFinalizarBatallaNPC;
+     }
+     /**
+      * Método que setea el paqueteFinalizarBatallaNPC.
+      * @param paqueteFinalizarNPC PaqueteFinalizarBatallaNPC.
+      */
+    public void setPaqueteFinalizarBatallaNPC(
+        final PaqueteFinalizarBatallaNPC paqueteFinalizarNPC) {
+       this.paqueteFinalizarBatallaNPC = paqueteFinalizarNPC;
+    }
+
+    /**
+     * Método que me devuelve el paqueteBatallaNPC.
+     * @return PaqueteBatallaNPC.
+     */
+    public PaqueteBatallaNPC getPaqueteBatallaNPC() {
+        return paqueteBatallaNPC;
+    }
+
+    /**
+     * Método que setea el paqueteBatallaNPC.
+     * @param paqueteBatallaNPC PaqueteBatallaNPC.
+     */
+    public void setPaqueteBatallaNPC(
+        final PaqueteBatallaNPC paqueteBatallaNPC) {
+      this.paqueteBatallaNPC = paqueteBatallaNPC;
     }
 }
