@@ -23,12 +23,15 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import mensajeria.PaqueteEnemigo;
 import mensajeria.PaqueteMensaje;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 
 /**
- * Clase Servidor.
+ * 
+ * Clase Servidor ..
+ *
  */
 public class Servidor extends Thread {
 /**
@@ -43,6 +46,9 @@ public class Servidor extends Thread {
  * HashMap personajesConectados.
  */
     private static Map<Integer, PaquetePersonaje> personajesConectados = new HashMap<>();
+    
+    /** Almacena la ubicación de los enemigos. **/
+    private static Map<Integer, PaqueteEnemigo> enemigos = new HashMap<>();
 /**
  * Variable server del tipo Thread.
  */
@@ -209,6 +215,8 @@ public class Servidor extends Thread {
 
             atencionConexiones.start();
             atencionMovimientos.start();
+            
+            crearEnemigos();
 
             while (true) {
                 Socket cliente = serverSocket.accept();
@@ -226,39 +234,33 @@ public class Servidor extends Thread {
             log.append("Fallo la conexión." + System.lineSeparator());
         }
     }
+	private void crearEnemigos(){
+
+		for(int i=-1;i>=-10;i--) {
+		//for(int i=0;i<10;i++) {
+			
+			float x = (float)Math.random()*(250-1500)+1500;
+			float y = (float)Math.random()*(x/2-1600)+1600;
+			PaqueteEnemigo paqueteEnemigo = new PaqueteEnemigo(i,x,y);
+			enemigos.put(i, paqueteEnemigo);
+			
+			//setEnemigos(enemigos);
+		}
+	}
+	
+	public static Map<Integer, PaqueteEnemigo> getEnemigos() {
+		return enemigos;
+	}
+	
+	public static void setEnemigos(Map<Integer, PaqueteEnemigo> enemigos) {
+		Servidor.enemigos = enemigos;
+	}
 /**
  * Metodo mensajeUsuario.
  * @param pqm envia el paquete mensaje
  * @return booelan
  */
     public static boolean mensajeAUsuario(final PaqueteMensaje pqm) {
-        // boolean result = true;
-        // boolean noEncontro = true;
-        //
-        // for (Map.Entry<Integer, PaquetePersonaje> personaje :
-        // personajesConectados.entrySet()) {
-        // if (noEncontro &&
-        // (!personaje.getValue().getNombre().equals(pqm.getUserReceptor()))) {
-        // result = false;
-        // } else {
-        // result = true;
-        // noEncontro = false;
-        // }
-        // }
-        // // Si existe inicio sesion
-        // if (result) {
-        // Servidor.log
-        // .append(pqm.getUserEmisor() + " envió mensaje a " + pqm.getUserReceptor() +
-        // System.lineSeparator());
-        // return true;
-        // } else {
-        // // Si no existe informo y devuelvo false
-        // Servidor.log.append("El mensaje para " + pqm.getUserReceptor()
-        // + " no se envió, ya que se encuentra desconectado." +
-        // System.lineSeparator());
-        // return false;
-        // }
-
         boolean encontro = false;
 
         Iterator<Entry<Integer, PaquetePersonaje>> it = personajesConectados.entrySet().iterator();
