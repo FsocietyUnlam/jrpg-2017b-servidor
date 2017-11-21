@@ -44,6 +44,7 @@ public class Conector {
 	Connection connect;
 	// ConexionHibernate connectionHibernate; //Atributo agregado
 
+	
 	// Constructor Agregado
 	/*
 	 * public Conector() { connectionHibernate = new ConexionHibernate(); }
