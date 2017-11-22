@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-mapping>
-	<class name="modelos.Personaje" table="personaje">
-		<id column="idPersonaje" name="idPersonaje" type="int">
+    <class name="modelos.Personaje" table="personaje">
+        <id column="idPersonaje" name="idPersonaje" type="int">
               <generator class="increment" />
 		</id>
 		<property column="idInventario" name="idInventario" type="int" />
