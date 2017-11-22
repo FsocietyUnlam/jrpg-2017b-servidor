@@ -640,8 +640,6 @@ public class Conector {
 			/*CriteriaBuilder cb = session.getCriteriaBuilder();
 			CriteriaQuery<Registro> criteriaQuery = cb.createQuery(Registro.class);
 			Root<Registro> root = criteriaQuery.from(Registro.class);
-			
-
 			Predicate p1 = cb.equal(root.get("usuario"), user.getUsername());
 			criteriaQuery.select(root).where(p1);
 			List<Registro> listaRegistro = session.createQuery(criteriaQuery).getResultList();*/
@@ -965,8 +963,7 @@ public class Conector {
 		try {
 			/*PreparedStatement stActualizarPersonaje = connect
 					.prepareStatement("UPDATE personaje SET fuerza=?, destreza=?, inteligencia=?,"
-							+ " saludTope=?, energiaTope=?, experiencia=?, nivel=? " + "  WHERE idPersonaje=?");
-
+							+ " saludTope=?, energiaTope=?, experiencia=?, nivel=? " + "  WHERE idPersonaje=?"
 			stActualizarPersonaje.setInt(1, paquetePersonaje.getFuerza());
 			stActualizarPersonaje.setInt(2, paquetePersonaje.getDestreza());
 			stActualizarPersonaje.setInt(3, paquetePersonaje.getInteligencia());
@@ -975,7 +972,6 @@ public class Conector {
 			stActualizarPersonaje.setInt(6, paquetePersonaje.getExperiencia());
 			stActualizarPersonaje.setInt(7, paquetePersonaje.getNivel());
 			stActualizarPersonaje.setInt(8, paquetePersonaje.getId());
-
 			stActualizarPersonaje.executeUpdate();*/
 			//JOptionPane.showMessageDialog(null,paquetePersonaje.getNombre() + " " + paquetePersonaje.getInvulnerable());
 			Session session = ConectorSingleton.getInstance().getSession();
@@ -1025,5 +1021,5 @@ public class Conector {
 					+ System.lineSeparator());
 		}
 	}
-
 }
+

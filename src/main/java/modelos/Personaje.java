@@ -3,11 +3,7 @@ package modelos;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-/**
- * Clase Personaje.
- * @author Hector
- *
- */
+
 public class Personaje {
 	private int idPersonaje;
 	private int idInventario;
