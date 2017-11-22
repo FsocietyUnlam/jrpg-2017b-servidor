@@ -27,9 +27,7 @@ public class InicioSesion extends ComandosServer {
                 paquetePersonaje.setComando(Comando.INICIOSESION);
                 paquetePersonaje.setMensaje(Paquete.msjExito);
                 escuchaCliente.setIdPersonaje(paquetePersonaje.getId());
-
                 escuchaCliente.getSalida().writeObject(gson.toJson(paquetePersonaje));
-
             } else {
                 paqueteSv.setMensaje(Paquete.msjFracaso);
                 escuchaCliente.getSalida().writeObject(gson.toJson(paqueteSv));

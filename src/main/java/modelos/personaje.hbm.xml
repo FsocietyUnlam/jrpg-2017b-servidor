@@ -19,5 +19,13 @@
 		<property column="experiencia" name="experiencia" type="int" />
 		<property column="nivel" name="nivel" type="int" />
 		<property column="idAlianza" name="idAlianza" type="int" />
+		<property column="invulnerable" name="invulnerable" type="int" />
+		<property column="dobleFuerza" name="dobleFuerza" type="int" />
+		<property column="mitadFuerza" name="mitadFuerza" type="int" />
+		<property column="invisible" name="invisible" type="int" />
+		<property column="atravesarParedes" name="atravesarParedes" type="int" />
+		<property column="ptosAsigFuerza" name="ptosAsigFuerza" type="int" />
+		<property column="ptosAsigDestreza" name="ptosAsigDestreza" type="int" />
+		<property column="ptosAsigInteligencia" name="ptosAsigInteligencia" type="int" />
 	</class>
 </hibernate-mapping>

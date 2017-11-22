@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -192,6 +193,14 @@ public class Conector {
 			p.setExperiencia(0);
 			p.setNivel(1);
 			p.setIdAlianza(-1);
+			p.setInvulnerable(paquetePersonaje.getInvulnerable());
+			p.setDobleFuerza(paquetePersonaje.getDobleFuerza());
+			p.setMitadFuerza(paquetePersonaje.getMitadFuerza());
+			p.setInvisible(paquetePersonaje.getInvisible());
+			p.setAtravesarParedes(paquetePersonaje.getAtravesarParedes());
+			p.setPtosAsigFuerza(paquetePersonaje.getPtosAsigFuerza());
+			p.setPtosAsigDestreza(paquetePersonaje.getPtosAsigDestreza());
+			p.setPtosAsigInteligencia(paquetePersonaje.getPtosAsigInteligencia());
 
 			session.getTransaction().begin();
 			int idPersonaje = (Integer) session.save(p);
@@ -488,6 +497,14 @@ public class Conector {
 			update.set("energiaTope", paquetePersonaje.getEnergiaTope());
 			update.set("experiencia", paquetePersonaje.getExperiencia());
 			update.set("nivel", paquetePersonaje.getNivel());
+			update.set("invulnerable", paquetePersonaje.getInvulnerable());
+			update.set("dobleFuerza", paquetePersonaje.getDobleFuerza());
+			update.set("mitadFuerza", paquetePersonaje.getMitadFuerza());
+			update.set("invisible", paquetePersonaje.getInvisible());
+			update.set("atravesarParedes", paquetePersonaje.getAtravesarParedes());
+			update.set("ptosAsigFuerza", paquetePersonaje.getPtosAsigFuerza());
+			update.set("ptosAsigDestreza", paquetePersonaje.getPtosAsigDestreza());
+			update.set("ptosAsigInteligencia", paquetePersonaje.getPtosAsigInteligencia());
 
 			Predicate p1 = cb.equal(e.get("idPersonaje"), paquetePersonaje.getId());
 			update.where(p1);
@@ -706,6 +723,14 @@ public class Conector {
 			personaje.setNombre(objPersonaje.getNombre());
 			personaje.setExperiencia(objPersonaje.getExperiencia());
 			personaje.setNivel(objPersonaje.getNivel());
+			personaje.setInvulnerable(objPersonaje.getInvulnerable());
+			personaje.setDobleFuerza(objPersonaje.getDobleFuerza());
+			personaje.setMitadFuerza(objPersonaje.getMitadFuerza());
+			personaje.setInvisible(objPersonaje.getInvisible());
+			personaje.setAtravesarParedes(objPersonaje.getAtravesarParedes());
+			personaje.setPtosAsigFuerza(objPersonaje.getPtosAsigFuerza());
+			personaje.setPtosAsigDestreza(objPersonaje.getPtosAsigDestreza());
+			personaje.setPtosAsigInteligencia(objPersonaje.getPtosAsigInteligencia());
 
 			// Traigo los datos del item
 			//PreparedStatement stDatosItem = connect.prepareStatement("SELECT * FROM item WHERE idItem = ?");
@@ -741,7 +766,7 @@ public class Conector {
 				i++;
 				j++;
 			}
-
+			Servidor.log.append("Se conectó " + user.getUsername() + " inv:" + objPersonaje.getInvulnerable());
 			// Devuelvo el paquete personaje con sus datos
 			session.clear();
 		} catch (HibernateException ex) {
@@ -749,7 +774,7 @@ public class Conector {
 					.append("Fallo al intentar recuperar el personaje " + user.getUsername() + System.lineSeparator());
 			Servidor.log.append(ex.getMessage() + System.lineSeparator());
 		}
-
+		
 		return personaje;
 	}
 
@@ -952,7 +977,7 @@ public class Conector {
 			stActualizarPersonaje.setInt(8, paquetePersonaje.getId());
 
 			stActualizarPersonaje.executeUpdate();*/
-			
+			//JOptionPane.showMessageDialog(null,paquetePersonaje.getNombre() + " " + paquetePersonaje.getInvulnerable());
 			Session session = ConectorSingleton.getInstance().getSession();
 			
 			session.getTransaction().begin();
@@ -973,6 +998,14 @@ public class Conector {
 			update.set("energiaTope", paquetePersonaje.getEnergiaTope());
 			update.set("experiencia", paquetePersonaje.getExperiencia());
 			update.set("nivel", paquetePersonaje.getNivel());
+			update.set("invulnerable", paquetePersonaje.getInvulnerable());
+			update.set("dobleFuerza", paquetePersonaje.getDobleFuerza());
+			update.set("mitadFuerza", paquetePersonaje.getMitadFuerza());
+			update.set("invisible", paquetePersonaje.getInvisible());
+			update.set("atravesarParedes", paquetePersonaje.getAtravesarParedes());
+			update.set("ptosAsigFuerza", paquetePersonaje.getPtosAsigFuerza());
+			update.set("ptosAsigDestreza", paquetePersonaje.getPtosAsigDestreza());
+			update.set("ptosAsigInteligencia", paquetePersonaje.getPtosAsigInteligencia());
 
 			Predicate p1 = cb.equal(e.get("idPersonaje"), paquetePersonaje.getId());
 			update.where(p1);
