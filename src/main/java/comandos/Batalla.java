@@ -26,7 +26,6 @@ public class Batalla extends ComandosServer {
                     .setEstado(Estado.getEstadoBatalla());
             escuchaCliente.getPaqueteBatalla().setMiTurno(true);
             escuchaCliente.getSalida().writeObject(gson.toJson(escuchaCliente.getPaqueteBatalla()));
-
             for (EscuchaCliente conectado : Servidor.getClientesConectados()) {
                 if (conectado.getIdPersonaje() == escuchaCliente.getPaqueteBatalla().getIdEnemigo()) {
                     int aux = escuchaCliente.getPaqueteBatalla().getId();
