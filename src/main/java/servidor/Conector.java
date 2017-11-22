@@ -1025,4 +1025,5 @@ public class Conector {
 					+ System.lineSeparator());
 		}
 	}
+
 }
