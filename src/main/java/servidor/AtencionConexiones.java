@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import estados.Estado;
 import mensajeria.Comando;
+import mensajeria.PaqueteDeEnemigos;
 import mensajeria.PaqueteDePersonajes;
 
 /**
@@ -43,8 +44,17 @@ public class AtencionConexiones extends Thread {
                             synchronized (conectado) {
                                 conectado.getSalida().writeObject(gson.toJson(pdp));
                             }
+                            
+                            PaqueteDeEnemigos pde = (PaqueteDeEnemigos)new PaqueteDeEnemigos(Servidor.getEnemigos()).clone();
+                            pde.setComando(Comando.SETENEMIGOS);
+                            synchronized (conectado) {
+                                 conectado.getSalida().writeObject(
+                                      gson.toJson(pde));
+                                 }
                         }
                     }
+                    
+                    
                 }
             } catch (Exception e) {
                 Servidor.log.append("Falló al intentar enviar paqueteDePersonajes\n");
